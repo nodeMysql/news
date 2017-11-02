@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	
+</head>
+<body>
+	<div class="wrap">
+		<p>题目</p>
+		<input type="text" id='t'>
+		<p>作者</p>
+		<input type="text" id="z">
+		<br>
+		<textarea id="txt"></textarea>
+	</div>
+	<select>
+		
+		<option value="0">企业新闻</option>
+		<option value="1">行业新闻</option>
+	</select>
+		<button>提交</button>
+	<script>
+		
+		
+		$(function(){
+			$('button').click(function(){
+				
+				var t=$('#t').val()
+				var z=$('#z').val()
+				var txt=$('#txt').val()
+				var op=$('select').find('option:selected').val()
+				console.log(t)
+				console.log(z)
+				console.log(txt)
+				console.log(op)
+				
+			if(t=="" && z=="" && txt==""){
+					alert("请输入....")
+				}
+				else{
+					$.ajax({
+					url:"http://localhost:3000/insert",
+					type:'POST',
+					data:{
+						title:t,
+						name:z,
+						detail:txt,
+						id:op
+					},
+					dataType:'json',
+					success:function(e){
+						console.log(e)
+					}
+				})
+				}
+				
+			})
+		})
+
+
+	</script>
+</body>
+</html>

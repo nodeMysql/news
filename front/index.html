@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+
+	<div>
+		<button value="0">企业新闻</button>
+		<button value="1">行业新闻</button>
+	</div>
+	<main>
+		
+	</main>
+	<div id="con">
+		
+	</div>
+	<div class="con"></div>
+	<script>
+		
+		
+		$(function(){
+			
+			
+			$('button').click(function(){
+				var b=$(this).val()
+				console.log(b)
+				
+				if(b==0){
+					$('#con').hide()
+					$('main').show()
+					ajax(b,function(e){
+						console.log(e)
+						var str=''
+						for(var i in e){
+							var t=e[i].id
+							str+="<div><p>"+e[i].title+"</p><a href='index.html?id="+t+"'>"+e[i].detail+"</a></div>"
+							$('main').html(str)
+						
+						}
+						
+					})
+					var id=window.location.search.split("=")[1]
+					console.log(id)
+					
+					$.ajax({
+						url:'http://localhost:3000/detail',
+						type:'POST',
+						dataType:'json',
+						data:{
+							id:id
+						},
+						success:function(e){
+							$('.con').append("<div><h2>"+e[0].title+"</h2></p>"+e[0].name+"<span>"+e[0].time+"<span></p><p>"+e[0].detail+"</p></div>")
+						}
+
+					})
+				}
+				else{
+					$('main').hide()
+					$('#con').show()
+					ajax(b,function(e){
+						console.log(e)
+						var str=""
+						for(var i in e){
+							str+="<div><p>"+e[i].title+"</p><a href='index.html?id="+e[i].id+"'>"+e[i].detail+"</a></div>"
+							$('#con').html(str)
+							
+						}
+						
+					})
+				}
+				
+			})
+			
+			
+			
+			
+		function ajax(d,callback){
+			$.ajax({
+				url:'http://localhost:3000/list',
+				type:'POST',
+				dataType:'json',
+				data:{
+					uid:d
+				},
+				success:function(e){
+					callback(e)
+				}
+				
+			})
+		}
+			
+			
+			
+				
+		})
+
+		
+	</script>
+	
+</body>
+</html>
